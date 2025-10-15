@@ -1,0 +1,36 @@
+## The output in terminal 
+
+gevorgg@ubuntu-aua-os:~/alignment_in_the_C_programming_language/src$ ./assignment1
+Please check the sizes of the data types...
+Size of the integer (int) -> 4 bytes
+Size of the character (char) -> 1 bytes
+Size of the double -> 8 bytes
+Size of the short -> 2 bytes
+
+Here are the memory addresses...
+Address of the integer -> 0x7ffee86cccac
+Address of character -> 0x7ffee86ccca9
+Address of double -> 0x7ffee86cccb0
+Address of short -> 0x7ffee86cccaa
+gevorgg@ubuntu-aua-os:~/alignment_in_the_C_programming_language/src$
+
+
+## Explanation of the Assignment 1: Understanding Data Alignment in C
+
+Observations:
+
+- Sizes on a 64-bit Ubuntu system:
+
+  - Integer (int): 4 bytes
+  - Character (char): 1 byte
+  - Double: 8 bytes
+  - Short: 2 bytes
+
+- Alignment: The compiler aligns variables to boundaries matching their size or the system's word size (typically 4 or 8 bytes).
+
+  - Integer (0x7ffee86cccac): Address divisible by 4 (ends in c in hex).
+  - Character (0x7ffee86ccca9): Not strictly aligned, often padded in the stack for efficiency.
+  - Double (0x7ffee86cccb0): Address divisible by 8 (ends in 0).
+  - Short (0x7ffee86cccaa): Address divisible by 2 (ends in a).
+
+- Purpose: Alignment optimizes memory access speed, as unaligned access can cause performance penalties or errors on certain architectures.
