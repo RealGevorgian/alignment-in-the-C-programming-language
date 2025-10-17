@@ -1,0 +1,83 @@
+Assignment 3: Data Alignment with #pragma pack
+
+Observations:
+
+- Sizes on a 64-bit Ubuntu system:
+  
+  - Default (no #pragma pack): 16 bytes (1 byte char + 3 padding + 4 bytes int + 4 padding + 8 bytes double, aligned to 8-byte boundary).
+  - #pragma pack(1): 13 bytes (no padding, exact size of fields: 1 + 4 + 8).
+  - #pragma pack(2): 14 bytes (char at 0, int at 2 with 2 padding, double at 8 with 6 padding to align to 2-byte boundary).
+  - #pragma pack(4): 16 bytes (char at 0, int at 4, double at 8 with 4 padding to align to 4-byte boundary).
+
+- Addresses:
+  
+  - Default: Gaps between fields due to 8-byte alignment (e.g., letterChar at 0x..., numberInt at 0x...+4, valueDouble at 0x...+8).
+  - pack(1): Consecutive addresses (e.g., letterChar at 0x..., numberInt at 0x...+1, valueDouble at 0x...+5).
+  - pack(2): Aligned to 2-byte boundaries with some padding.
+  - pack(4): Aligned to 4-byte boundaries.
+
+- How #pragma pack affects memory usage:
+  
+  - Without #pragma pack, the compiler adds padding to align fields to their natural boundaries (e.g., 4 for int, 8 for double), increasing size to 16 bytes for efficiency.
+  - #pragma pack(1) removes all padding, reducing size to 13 bytes but potentially slowing access on some architectures.
+  - Higher pack values (2, 4) allow partial padding, balancing size and alignment.
+  - Bonus: pack(2) and pack(4) show intermediate alignment, with size increasing as the packing value approaches the default alignment.
+
+
+Expected Output
+
+Please check the sizes and addresses of the structs...
+
+Default Alignment (No #pragma pack):
+Size of DefaultStruct -> 16 bytes
+Address of letterChar -> 0x7ffee86ccc90
+Address of numberInt -> 0x7ffee86ccc94
+Address of valueDouble -> 0x7ffee86ccc98
+
+With #pragma pack(1):
+Size of PackedStruct1 -> 13 bytes
+Address of letterChar -> 0x7ffee86ccc80
+Address of numberInt -> 0x7ffee86ccc81
+Address of valueDouble -> 0x7ffee86ccc85
+
+With #pragma pack(2):
+Size of PackedStruct2 -> 14 bytes
+Address of letterChar -> 0x7ffee86ccc70
+Address of numberInt -> 0x7ffee86ccc72
+Address of valueDouble -> 0x7ffee86ccc78
+
+With #pragma pack(4):
+Size of PackedStruct4 -> 16 bytes
+Address of letterChar -> 0x7ffee86ccc60
+Address of numberInt -> 0x7ffee86ccc64
+Address of valueDouble -> 0x7ffee86ccc68
+
+
+My Terminal Output
+
+gevorgg@ubuntu-aua-os:~/alignment_in_the_C_programming_language/src$ ./assignment3
+Please check the sizes and addresses of the structs...
+
+Default Alignment (No #pragma pack):
+Size of DefaultStruct -> 16 bytes
+Address of letterChar -> 0x7ffcb4df1d30
+Address of numberInt -> 0x7ffcb4df1d34
+Address of valueDouble -> 0x7ffcb4df1d38
+
+#With pragma pack(1):
+The size of PackedStructOne -> 13 bytes
+The address of letterChar -> 0x7ffcb4df1d15
+The address of numberInt -> 0x7ffcb4df1d16
+The address of valueDouble -> 0x7ffcb4df1d1a
+
+#With pragma pack(2):
+The size of PackedStructTwo -> 14 bytes
+Address of letterChar -> 0x7ffcb4df1d22
+Address of numberInt -> 0x7ffcb4df1d24
+Address of valueDouble -> 0x7ffcb4df1d28
+
+#With #pragma pack(4):
+The size of PackedStructFour -> 16 bytes
+The address of letterChar -> 0x7ffcb4df1d40
+The address of numberInt -> 0x7ffcb4df1d44
+The address of valueDouble -> 0x7ffcb4df1d48
