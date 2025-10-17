@@ -1,0 +1,37 @@
+Assignment 2: Struct Padding
+
+- My terminal output
+
+gevorgg@ubuntu-aua-os:~/alignment_in_the_C_programming_language/src$ ./assignment2
+Please check the sizes and addresses of the structs...
+
+Original Struct (char, int, double):
+Size of OriginalStruct -> 16 bytes
+Address of letterChar -> 0x7fff87b3cc90
+Address of numberInt -> 0x7fff87b3cc94
+Address of valueDouble -> 0x7fff87b3cc98
+
+Reordered Struct (double, int, char):
+Size of ReorderedStruct -> 16 bytes
+Address of valueDouble -> 0x7fff87b3cca0
+Address of numberInt -> 0x7fff87b3cca8
+Address of letterChar -> 0x7fff87b3ccac
+gevorgg@ubuntu-aua-os:~/alignment_in_the_C_programming_language/src$
+
+
+Observations:
+
+
+- Sizes on a 64-bit Ubuntu system:
+  - OriginalStruct (char, int, double): 16 bytes
+    - char (1 byte) + 3 bytes padding + int (4 bytes) + 4 bytes padding + double (8 bytes) = 16 bytes
+  - ReorderedStruct (double, int, char): 16 bytes
+    - double (8 bytes) + int (4 bytes) + char (1 byte) + 3 bytes padding = 16 bytes
+
+- Addresses:
+  - OriginalStruct: letterChar at base address (e.g., 0x7ffee86ccc90), numberInt at +4 (0x7ffee86ccc94), valueDouble at +8 (0x7ffee86ccc98).
+  - ReorderedStruct: valueDouble at base (e.g., 0x7ffee86ccc80), numberInt at +8 (0x7ffee86ccc88), letterChar at +12 (0x7ffee86ccc8c).
+
+- Questions:
+  - Does changing the order of fields reduce or increase the size? In this case, the size remains 16 bytes for both structs. Reordering didn't reduce the size because the compiler adds padding to align fields to their natural boundaries (e.g., int to 4 bytes, double to 8 bytes). The total size is rounded to a multiple of the largest alignment (8 bytes for double).
+  - How is padding affecting the size? Padding is added to ensure each field starts at an address divisible by its alignment requirement. In OriginalStruct, 3 bytes pad after char to align int, and 4 bytes pad after int to align double. In ReorderedStruct, 3 bytes pad after char to align the struct to an 8-byte boundary.
